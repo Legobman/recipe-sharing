@@ -9,11 +9,9 @@ app.use(express.json());
 app.use(express.static("public"));
 
 
-const productRoutes = require('./routes/productRoutes');
-const userRoutes = require('./routes/userRoutes');
+const recipeRoutes = require('./routes/recipeRoutes');
 
-app.use('/api/products', productRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api/recipes', recipeRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {

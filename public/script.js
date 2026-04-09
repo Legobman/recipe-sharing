@@ -1,37 +1,37 @@
 //script.js
 "use strict";
 (function () {
-  const MY_SERVER_BASEURL = "/api/products";
+  const MY_SERVER_BASEURL = "/api/recipes";
   window.addEventListener("load", init);
   function init() {
-    getProducts();
+    getRecipes();
   }
-  function getProducts() {
-    let productsDiv = id("products-container");
-    fetch(MY_SERVER_BASEURL + "/type/furniture")
+  function getRecipes() {
+    let recipesDiv = id("recipes-container");
+    fetch(MY_SERVER_BASEURL + "/")
       .then(checkStatus)
       .then((response) => {
         for (const item of response) {
-          addParagraph(productsDiv, item);
+          addParagraph(recipesDiv, item);
         }
       })
       .catch((error) => {
         console.error("Error: ", error);
       });
   }
-  function addParagraph(productsDiv, productObject) {
+  function addParagraph(recipesDiv, recipeObject) {
     let article = document.createElement("article");
     let heading = document.createElement("h3");
-    heading.appendChild(document.createTextNode(productObject.name));
+    heading.appendChild(document.createTextNode(recipeObject.name));
     let para = document.createElement("p");
-    para.appendChild(document.createTextNode("Type: " + productObject.type + ", Price: $" + productObject.price));
+    para.appendChild(document.createTextNode("Type: " + recipeObject.type + ", Steps: $" + recipeObject.steps));
     article.appendChild(heading);
     article.appendChild(para);
-    productsDiv.appendChild(article);
+    recipesDiv.appendChild(article);
   }
 
   //script.js
-  let saveButton = id("save-product");
+  let saveButton = id("save-recipe");
   saveButton.addEventListener("click", function (e) {
     e.preventDefault();
     submitForm();
@@ -58,7 +58,7 @@
     document.querySelectorAll("article").forEach((element) => {
       element.remove();
     });
-    getProducts();
+    getRecipes();
   }
 
   //helper functions - place other functions above this line
