@@ -94,7 +94,28 @@ async function createRecipe(req, res) {
     const { name, type, ingredients, steps } = req.body;
     if (name && type && ingredients && steps) {
         try {
-            const newRecipe = await model.addRecipe(name, type, ingredients, steps);
+            // Call API function
+            const response = await fetch(
+                `https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(ingredients)}`,
+                {
+                    headers:{
+                        "X-Api-Key": process.env.API_NINJAS_KEY
+                    }
+                }
+            )
+            // grab nutrition info
+            const nutrition = await response.json();
+            const ninfo = nutrition?.[0] || {};
+            const servingSize = ninfo.serving_size_g ?? null;
+            const fatTotal = ninfo.fat_total_g ?? null;
+            const fatSaturated = ninfo.fat_saturated_g ?? null;
+            const sodium = ninfo.sodium_mg ?? null;
+            const potassium = ninfo.potassium_mg ?? null;
+            const cholesterol = ninfo.cholesterol_mg ?? null;
+            const carbohydratesTotal = ninfo.carbohydrates_total_g ?? null;
+            const fiber = ninfo.fiber_g ?? null;
+            const sugar = ninfo.sugar_g ?? null;
+            const newRecipe = await model.addRecipe(name, type, ingredients, steps, servingSize, fatTotal, fatSaturated, sodium, potassium, cholesterol, carbohydratesTotal, fiber, sugar);
             res.status(201).json(newRecipe);
         } catch (err) {
             console.error(err);

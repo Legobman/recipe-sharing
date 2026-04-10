@@ -31,9 +31,10 @@ async function deleteRecipe(id) {
     return result.rowCount;
 }
 
-async function addRecipe(name, type, ingredients, steps) {
-    let queryText = "INSERT INTO recipes ( name, type, ingredients, steps) VALUES ($1, $2, $3, $4) RETURNING *";
-    let values = [name, type, ingredients, steps];
+async function addRecipe(name, type, ingredients, steps, serving_size_g, fat_total_g, fat_saturated_g, sodium_mg, potassium_mg, cholesterol_mg, carbohydrates_total_g, fiber_g, sugar_g) {
+    let queryText = `INSERT INTO recipes ( name, type, ingredients, steps, serving_size_g, fat_total_g, fat_saturated_g, sodium_mg, potassium_mg, cholesterol_mg, carbohydrates_total_g, fiber_g, sugar_g) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`;
+    let values = [name, type, ingredients, steps, serving_size_g, fat_total_g, fat_saturated_g, sodium_mg, potassium_mg, cholesterol_mg, carbohydrates_total_g, fiber_g, sugar_g];
     const result = await pool.query(queryText, values);
     return result.rows[0];
 }

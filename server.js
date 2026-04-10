@@ -1,8 +1,11 @@
 "use strict";
+require('dotenv').config();
+
 const express = require("express");
 const app = express();
 
 console.log(process.version);
+console.log("KEY LOADED:", process.env.API_NINJAS_KEY);
 
 const multer = require("multer");
 app.use(multer().none());
