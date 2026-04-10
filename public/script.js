@@ -1,4 +1,3 @@
-//script.js
 "use strict";
 (function () {
   const MY_SERVER_BASEURL = "/api/recipes";

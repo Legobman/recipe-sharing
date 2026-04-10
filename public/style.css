@@ -1,5 +1,4 @@
-/*style.css*/
-#products-container {
+#recipes-container {
 display: flex; 
 flex-wrap: wrap; 
 gap: 20px;
