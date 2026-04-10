@@ -40,6 +40,7 @@
  function submitForm() {
     let params = new FormData(id("form-container")); // pass in entire form tag
     let obj = Object.fromEntries(params);
+    obj.ingredients = obj.ingredients.replaceAll(",", " and ");
     let jsonBody = JSON.stringify(obj); //make form data json string.
     
     fetch(MY_SERVER_BASEURL + "/", {
