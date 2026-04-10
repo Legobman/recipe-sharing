@@ -96,16 +96,16 @@ async function createRecipe(req, res) {
         try {
             // Call API function
             const response = await fetch(
-                `https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(ingredients)}`,
-                {
-                    headers:{
-                        "X-Api-Key": process.env.API_NINJAS_KEY
-                    }
+            `https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(ingredients)}`,
+            {
+                headers:{
+                    "X-Api-Key": process.env.API_NINJAS_KEY
                 }
-            )
+            }
+        )
             // grab nutrition info
             const nutrition = await response.json();
-            const ninfo = nutrition?.[0] || {};
+            const ninfo = Array.isArray(nutrition) && nutrition.length > 0 ? nutrition[0] : {};
             const servingSize = ninfo.serving_size_g ?? null;
             const fatTotal = ninfo.fat_total_g ?? null;
             const fatSaturated = ninfo.fat_saturated_g ?? null;

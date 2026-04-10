@@ -16,9 +16,6 @@ async function getOneRecipeById(id) {
 
 async function getRecipesByType(params) {
     const queryText = "SELECT * FROM recipes where type= $1";
-    if (params.length > 1) {
-        queryText += " AND price <= $2";
-    }
     const result = await pool.query(queryText, params);
     return result.rows;
 }
