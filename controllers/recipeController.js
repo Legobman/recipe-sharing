@@ -94,18 +94,51 @@ async function createRecipe(req, res) {
     const { name, type, ingredients, steps } = req.body;
     if (name && type && ingredients && steps) {
         try {
+            const ingredientsList = ingredients
+                .split(",")
+                .map(i => i.trim());
             // Call API function
-            const response = await fetch(
-            `https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(ingredients)}`,
-            {
-                headers:{
-                    "X-Api-Key": process.env.API_NINJAS_KEY
-                }
+            const results = await Promise.all(
+                ingredientsList.map(async (item) =>{
+                    const response = await fetch(
+                        `https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(item)}`,
+                        {
+                            headers:{
+                                "X-Api-Key": process.env.API_NINJAS_KEY
+                            }
+                        }
+                    )
+                    // grab nutrition info
+                    const nutrition = await response.json();
+                    return nutrition?.[0] || {};
+                })
+            )
+            
+            const ninfo = {
+                serving_size_g: 0,
+                fat_total_g: 0,
+                fat_saturated_g: 0,
+                sodium_mg: 0,
+                potassium_mg: 0,
+                cholesterol_mg: 0,
+                carbohydrates_total_g: 0,
+                fiber_g: 0,
+                sugar_g: 0
             }
-        )
-            // grab nutrition info
-            const nutrition = await response.json();
-            const ninfo = Array.isArray(nutrition) && nutrition.length > 0 ? nutrition[0] : {};
+
+            for(const item of results){
+                if (!item) continue;
+                ninfo.serving_size_g += item.serving_size_g || 0;
+                ninfo.fat_total_g += item.fat_total_g || 0;
+                ninfo.fat_saturated_g += item.fat_saturated_g || 0;
+                ninfo.sodium_mg += item.sodium_mg || 0;
+                ninfo.potassium_mg += item.potassium_mg || 0;
+                ninfo.cholesterol_mg += item.cholesterol_mg || 0;
+                ninfo.carbohydrates_total_g += item.carbohydrates_total_g || 0;
+                ninfo.fiber_g += item.fiber_g || 0;
+                ninfo.sugar_g += item.sugar_g || 0;
+            }
+
             const servingSize = ninfo.serving_size_g ?? null;
             const fatTotal = ninfo.fat_total_g ?? null;
             const fatSaturated = ninfo.fat_saturated_g ?? null;
