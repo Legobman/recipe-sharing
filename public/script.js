@@ -3,7 +3,29 @@
   const MY_SERVER_BASEURL = "/api/recipes";
   window.addEventListener("load", init);
   function init() {
+    
     getRecipes();
+  }
+  //console.log(process.version);
+  // External API functions
+  function getNutrition(ingredients){
+    fetch(`/api/recipes/nutrition?ingredients=${encodeURIComponent(ingredients)}`)
+    .then(checkStatus)
+    .then((data) =>{
+      console.log(data);
+      displayNutrition(data);
+    })
+    .catch(console.error);
+  }
+  function displayNutrition(data){
+    let container = id("nutrition-container");
+    container.textContent = "";
+
+    data.forEach(item =>{
+      let p = document.createElement("p");
+      p.textContent = `${item.name}: Carbs ${item.carbohydrates_total_g}g, Fat ${item.fat_total_g}g`;
+      container.appendChild(p)
+    })
   }
   function getRecipes() {
     let recipesDiv = id("recipes-container");
@@ -23,7 +45,7 @@
     let heading = document.createElement("h3");
     heading.appendChild(document.createTextNode(recipeObject.name));
     let para = document.createElement("p");
-    para.appendChild(document.createTextNode("Type: " + recipeObject.type + ", Steps: $" + recipeObject.steps));
+    para.appendChild(document.createTextNode("Type: " + recipeObject.type + ", Steps: " + recipeObject.steps));
     article.appendChild(heading);
     article.appendChild(para);
     recipesDiv.appendChild(article);
@@ -38,7 +60,9 @@
 
  function submitForm() {
     let params = new FormData(id("form-container")); // pass in entire form tag
-    let jsonBody = JSON.stringify(Object.fromEntries(params)); //make form data json string.
+    let obj = Object.fromEntries(params);
+    let jsonBody = JSON.stringify(obj); //make form data json string.
+    
     fetch(MY_SERVER_BASEURL + "/", {
       method: "POST",
       headers: {
@@ -48,7 +72,10 @@
       body: jsonBody,
     })
       .then(checkStatus)
-      .then(refreshTable)
+      .then(() =>{
+        getNutrition(obj.ingredients);
+        refreshTable();
+      })
       .catch(alert);
   }
 

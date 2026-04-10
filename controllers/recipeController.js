@@ -1,6 +1,29 @@
 "use strict";
 const model = require('../models/recipeModel');
 
+async function fetchNutrition(req, res){
+    const {ingredients} = req.query;
+
+    if(!ingredients){
+        return res.status(400).send("Missing ingredients")
+    }
+    try{
+        const response = await fetch(
+            `https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(ingredients)}`,
+            {
+                headers:{
+                    "X-Api-Key": process.env.API_NINJAS_KEY
+                }
+            }
+        )
+
+        const data = await response.json();
+        res.json(data);
+    } catch(err){
+        console.error(err);
+        res.status(500).send("API error");
+    }
+}
 async function fetchAllRecipes(req, res) {
     try {
         const recipes = await model.getAllRecipes();
@@ -83,6 +106,7 @@ async function createRecipe(req, res) {
 }
 
 module.exports = {
+    fetchNutrition,
     fetchAllRecipes,
     fetchRecipeById,
     fetchRecipesByType,

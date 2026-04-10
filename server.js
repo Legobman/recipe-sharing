@@ -2,6 +2,8 @@
 const express = require("express");
 const app = express();
 
+console.log(process.version);
+
 const multer = require("multer");
 app.use(multer().none());
 app.use(express.urlencoded({ extended: true }));
