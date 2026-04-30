@@ -97,6 +97,7 @@ async function removeRecipe(req, res) {
 
 async function createRecipe(req, res) {
     const { name, type, ingredients, steps } = req.body;
+    const type = type.trim().toLowerCase();
     if (name && type && ingredients && steps) {
         try {
             const ingredientsList = ingredients
