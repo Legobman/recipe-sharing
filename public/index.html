@@ -8,9 +8,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <nav>
+        <div class="top-left">
+            <button id="home">Home</button>
+            <button id="breakfast">Breakfast</button>
+            <button id="dessert">Dessert</button>
+        </div>
+        <div class="top-right">
+            <input type="text" placeholder="username" id="username">
+            <input type="password" placeholder="password" id="password">
+            <button id="login-btn">Login</button>
+            <button id="logout-btn">Logout</button>
+            <button id="reg-btn">Register</button>
+        </div>
+    </nav>
+    <!-- register form -->
+    <form id="reg-form">
+        <h1>New User</h1>
+        <input type="text" placeholder="username" id="reg-username" required>
+        <input type="password" placeholder="password" id="reg-password" required>
+        <button type="button" id="addUser" class="btn">Create Account</button>
+    </form>
     <h1>Recipe List</h1>
     <div id="recipes-container">
-
     </div>
     <div id="nutrition-container">
 

@@ -1,10 +1,32 @@
 "use strict";
+// current user variable
+let currentUser = null;
+
 (function () {
   const MY_SERVER_BASEURL = "/api/recipes";
   window.addEventListener("load", init);
   function init() {
+    currentUser = null;
+    updateUI();
     
-    getRecipes();
+    id("login-btn").addEventListener("click", login);
+    id("logout-btn").addEventListener("click", logout);
+    id("reg-btn").addEventListener("click", displayRegister);
+    id("home").addEventListener("click", home);
+    id("breakfast").addEventListener("click", () => recipesByType("breakfast"));
+    id("dessert").addEventListener("click", () => recipesByType("dessert"));
+    id("addUser").addEventListener("click", function(e){
+      e.preventDefault();
+      register();
+    });
+    fetch("/api/users/me")
+      .then(res => res.json())
+      .then(user => {
+        currentUser = user;
+        updateUI();
+        getRecipes();
+      });
+      
   }
   function getRecipes() {
     let recipesDiv = id("recipes-container");
@@ -27,10 +49,23 @@
     para.appendChild(document.createTextNode("Type: " + recipeObject.type + ", Steps: " + recipeObject.steps + ", Carbs: " + recipeObject.carbohydrates_total_g + ", Fat: " +recipeObject.fat_total_g));
     article.appendChild(heading);
     article.appendChild(para);
+    // add delete button if logged and the recipe's owner
+    if(currentUser && Number(recipeObject.user_id) === Number(currentUser.id)){
+      let delBtn = document.createElement("button");
+      delBtn.textContent = "Delete";
+      delBtn.addEventListener("click", () =>{
+        fetch(`/api/recipes/${recipeObject.id}`, {
+          method: "DELETE"
+        })
+        .then(checkStatus)
+        .then(refreshTable)
+        .catch(alert);
+      })
+      article.appendChild(delBtn);
+    }
     recipesDiv.appendChild(article);
   }
 
-  //script.js
   let saveButton = id("save-recipe");
   saveButton.addEventListener("click", function (e) {
     e.preventDefault();
@@ -74,4 +109,96 @@
     }
     return response.json();
   }
+  // log in and log out functions
+  function login(){
+    fetch("/api/users/login", {
+      method:"POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        username: id("username").value,
+        password: id("password").value
+      })
+    })
+    .then(checkStatus)
+    .then(user => {
+      currentUser = user;
+      updateUI();
+      refreshTable();
+      id("username").value = "";
+      id("password").value = "";
+    })
+    .catch(alert);
+  }
+  function logout(){
+    fetch("/api/users/logout", {method: "POST"})
+      .then(() => {
+        currentUser = null;
+        updateUI();
+        refreshTable();
+      })
+  }
+  function updateUI(){
+    if(!currentUser){
+      id("form-container").style.display = "none";
+      id("login-btn").style.display = "inline";
+      id("logout-btn").style.display = "none";
+      id("reg-btn").style.display = "inline";
+    } else{
+      id("form-container").style.display = "block";
+      id("login-btn").style.display = "none";
+      id("logout-btn").style.display = "inline";
+      id("reg-btn").style.display = "none";
+    }
+  }
+  // register related function
+  function displayRegister(){
+    id("reg-form").classList.toggle("show");
+  }
+  function register(){
+    fetch("/api/users/register", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        username: id("reg-username").value,
+        password: id("reg-password").value
+      })
+    })
+    .then(checkStatus)
+    .then(() =>{
+      alert("User created! You can now log in.");
+      id("reg-username").value = "";
+      id("reg-password").value = "";
+      id("reg-form").classList.remove("show");
+    })
+    .catch(alert);
+  }
+  // functions for the left side of the nav bar
+  function home(){
+    hideForms();
+    refreshTable(); 
+  }
+  function hideForms(){
+    id("reg-form").classList.remove("show");
+    if(!currentUser){
+      id("form-container").style.display = "none";
+    }
+  }
+  function recipesByType(type){
+    hideForms();
+    let recipesDiv = id("recipes-container");
+    document.querySelectorAll("article").forEach((element) => {
+      element.remove();
+    });
+    fetch(`/api/recipes/type/${type}`)
+      .then(checkStatus)
+      .then((response) => {
+        for (const item of response) {
+          addParagraph(recipesDiv, item);
+        }
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+      });
+  }
 })();
+

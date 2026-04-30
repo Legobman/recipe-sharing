@@ -73,11 +73,16 @@ async function fetchRecipesByType(req, res) {
 
 async function removeRecipe(req, res) {
     const id = req.params.id;
+    // allowed allow user to delete their own recipes
+    const recipe = await model.getOneRecipeById(id);
+    if (!req.session.user_id || recipe.user_id !== req.session.user_id){
+        return res.status(403).send("Not allowed");
+    }
     if (id) {
         try {
             const deletedCount = await model.deleteRecipe(id);
             if (deletedCount > 0) {
-                res.send(`Product with id ${id} deleted successfully.`);
+                res.json({message: `Recipe ${id} deleted successfully`})
             } else {
                 res.status(404).send("Product not found.");
             }
@@ -148,7 +153,11 @@ async function createRecipe(req, res) {
             const carbohydratesTotal = ninfo.carbohydrates_total_g ?? null;
             const fiber = ninfo.fiber_g ?? null;
             const sugar = ninfo.sugar_g ?? null;
-            const newRecipe = await model.addRecipe(name, type, ingredients, steps, servingSize, fatTotal, fatSaturated, sodium, potassium, cholesterol, carbohydratesTotal, fiber, sugar);
+
+            // track the user who added recipe
+            const user_id = req.session.user_id;
+
+            const newRecipe = await model.addRecipe(name, type, ingredients, steps, servingSize, fatTotal, fatSaturated, sodium, potassium, cholesterol, carbohydratesTotal, fiber, sugar, user_id);
             res.status(201).json(newRecipe);
         } catch (err) {
             console.error(err);

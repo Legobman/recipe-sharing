@@ -2,7 +2,15 @@
 require('dotenv').config();
 
 const express = require("express");
+const session = require("express-session");
+
 const app = express();
+//needed for user log in and log out 
+app.use(session({
+    secret: "secret-key",
+    resave: false,
+    saveUninitialized: false
+}));
 
 console.log(process.version);
 console.log("KEY LOADED:", process.env.API_NINJAS_KEY);
@@ -15,8 +23,10 @@ app.use(express.static("public"));
 
 
 const recipeRoutes = require('./routes/recipeRoutes');
+const userRoutes = require('./routes/userRoutes')
 
 app.use('/api/recipes', recipeRoutes);
+app.use('/api/users', userRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
