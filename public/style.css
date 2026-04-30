@@ -10,11 +10,11 @@ gap: 20px;
 #reg-form.show{
     display: block;
 }
-.top-right{
+.right{
     display: flex;
     gap: 10px;
 }
-.top-left{
+.left{
     gap: 10px;
 }
 article {
