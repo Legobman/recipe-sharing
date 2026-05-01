@@ -1,10 +1,12 @@
 "use strict";
+// my requirements
 require('dotenv').config();
 
 const express = require("express");
 const session = require("express-session");
 
 const app = express();
+
 //needed for user log in and log out 
 app.use(session({
     secret: "secret-key",
@@ -13,6 +15,7 @@ app.use(session({
 }));
 
 console.log(process.version);
+// external API check here
 console.log("KEY LOADED:", process.env.API_NINJAS_KEY);
 
 const multer = require("multer");

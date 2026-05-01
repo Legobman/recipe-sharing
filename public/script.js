@@ -2,9 +2,15 @@
 // current user variable
 let currentUser = null;
 
+/** @function nameless */
+// main function that runs the core functionality
 (function () {
   const MY_SERVER_BASEURL = "/api/recipes";
   window.addEventListener("load", init);
+  
+  /** @function init */
+  // function that makes sure the page loads correctly with what needs to be visible 
+  // or not and loads all needed functions
   function init() {
     currentUser = null;
     updateUI();
@@ -19,6 +25,7 @@ let currentUser = null;
       e.preventDefault();
       register();
     });
+    // make sure user stays logged in if they refresh the page
     fetch("/api/users/me")
       .then(res => res.json())
       .then(user => {
@@ -28,6 +35,9 @@ let currentUser = null;
       });
       
   }
+
+  /** @function getRecipes */
+  // function that grabs every recipe from the recipe table
   function getRecipes() {
     let recipesDiv = id("recipes-container");
     fetch(MY_SERVER_BASEURL + "/")
@@ -41,6 +51,10 @@ let currentUser = null;
         console.error("Error: ", error);
       });
   }
+  
+  /** @function getRecipes */
+  // function that loads every recipe into the recipe container, with each getting 
+  // their own article
   function addParagraph(recipesDiv, recipeObject) {
     let article = document.createElement("article");
     let heading = document.createElement("h3");
@@ -84,6 +98,9 @@ let currentUser = null;
     submitForm();
   });
 
+  /** @function submitForm */
+  // function that takes info from the users and attempts to upload it into the database
+  // as a new recipe
  function submitForm() {
     let params = new FormData(id("form-container")); // pass in entire form tag
     let obj = Object.fromEntries(params);
@@ -103,6 +120,8 @@ let currentUser = null;
       .catch(alert);
   }
 
+  /** @function refreshTable */
+  // function that resets the recipe list whenever it needs to go back to its default
   function refreshTable() {
     id("form-container").reset();
     document.querySelectorAll("article").forEach((element) => {
@@ -111,17 +130,23 @@ let currentUser = null;
     getRecipes();
   }
 
-  //helper functions - place other functions above this line
+  /** @function id */
+  // function to reduce how much I have to type document.getElementById
   function id(idName) {
     return document.getElementById(idName);
   }
+
+  /** @function checkStatus */
+  // another function to reduce repetitive typing
   function checkStatus(response) {
     if (!response.ok) {
       throw Error("Error in request: " + response.statusText);
     }
     return response.json();
   }
-  // log in and log out functions
+
+  /** @function login */
+  // function to attempt to log in the user based on given info
   function login(){
     fetch("/api/users/login", {
       method:"POST",
@@ -141,6 +166,9 @@ let currentUser = null;
     })
     .catch(alert);
   }
+
+  /** @function logout */
+  // function to clear out that the user is logged in
   function logout(){
     fetch("/api/users/logout", {method: "POST"})
       .then(() => {
@@ -149,6 +177,9 @@ let currentUser = null;
         refreshTable();
       })
   }
+
+  /** @function updateUI */
+  // function to change what is shown based on if user is logged in or not
   function updateUI(){
     if(!currentUser){
       id("form-container").style.display = "none";
@@ -162,10 +193,15 @@ let currentUser = null;
       id("reg-btn").style.display = "none";
     }
   }
-  // register related function
+  
+  /** @function displayRegister */
+  // function to toggle elements connected to button for visibility
   function displayRegister(){
     id("reg-form").classList.toggle("show");
   }
+
+  /** @function register */
+  // function to attempt to add a new user to the database
   function register(){
     fetch("/api/users/register", {
       method: "POST",
@@ -184,19 +220,27 @@ let currentUser = null;
     })
     .catch(alert);
   }
-  // functions for the left side of the nav bar
+
+  /** @function home */
+  // function to reset the page without refreshing
   function home(){
     hideForms();
     refreshTable(); 
     const display = id("recipe-details");
     display.classList.remove("show");
   }
+  
+  /** @function hideForms */
+  // function that hides register form and add recipe form, if not logged in
   function hideForms(){
     id("reg-form").classList.remove("show");
     if(!currentUser){
       id("form-container").style.display = "none";
     }
   }
+
+  /** @function recipesByType */
+  // function that displays all the info about a specific recipe
   function recipesByType(type){
     hideForms();
     let recipesDiv = id("recipes-container");
@@ -214,7 +258,9 @@ let currentUser = null;
         console.error("Error: ", error);
       });
   }
-  // details function
+
+  /** @function showDetails */
+  // function that displays all the info about a specific recipe
   function showDetails(recipe){
     const display = id("recipe-details");
     display.classList.add("show")

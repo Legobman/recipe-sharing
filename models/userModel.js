@@ -2,6 +2,8 @@
 const pool = require('./dbConnection');
 const bcrypt = require("bcrypt");
 
+/** @function createUser */
+// function that adds a user from my database
 async function createUser(username, password){
     const hpassword = await bcrypt.hash(password, 10);
     let queryText = `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *`;
@@ -10,6 +12,8 @@ async function createUser(username, password){
     return result.rows[0];
 }
 
+/** @function getUser */
+// function that grabs the logged in user's username and id
 async function getUser(params){
     const queryText = "SELECT * FROM users WHERE username = $1";
     const result = await pool.query(queryText, params);

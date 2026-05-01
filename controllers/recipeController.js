@@ -1,29 +1,8 @@
 "use strict";
 const model = require('../models/recipeModel');
 
-async function fetchNutrition(req, res){
-    const {ingredients} = req.query;
-
-    if(!ingredients){
-        return res.status(400).send("Missing ingredients")
-    }
-    try{
-        const response = await fetch(
-            `https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(ingredients)}`,
-            {
-                headers:{
-                    "X-Api-Key": process.env.API_NINJAS_KEY
-                }
-            }
-        )
-
-        const data = await response.json();
-        res.json(data);
-    } catch(err){
-        console.error(err);
-        res.status(500).send("API error");
-    }
-}
+/** @function fetchAllRecipes */
+// function that gets all the recipes from my database
 async function fetchAllRecipes(req, res) {
     try {
         const recipes = await model.getAllRecipes();
@@ -34,6 +13,8 @@ async function fetchAllRecipes(req, res) {
     }
 }
 
+/** @function fetchRecipeById */
+// function that gets a specific recipe from my database
 async function fetchRecipeById(req, res) {
     const id = req.params.id;
     if (id) {
@@ -49,6 +30,8 @@ async function fetchRecipeById(req, res) {
     }
 }
 
+/** @function fetchRecipesByType */
+// function that gets a specific type of recipe from my database
 async function fetchRecipesByType(req, res) {
     const type = req.params.type;
     const price = req.query.steps;
@@ -71,6 +54,8 @@ async function fetchRecipesByType(req, res) {
     }
 }
 
+/** @function removeRecipe */
+// function that removes a recipe from my database
 async function removeRecipe(req, res) {
     const id = req.params.id;
     // allowed allow user to delete their own recipes
@@ -95,6 +80,32 @@ async function removeRecipe(req, res) {
     }
 }
 
+/** @function fetchNutrition */
+// function that gets the info from the external API
+async function fetchNutrition(req, res){
+    const {ingredients} = req.query;
+    if(!ingredients){
+        return res.status(400).send("Missing ingredients")
+    }
+    try{
+        const response = await fetch(
+            `https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(ingredients)}`,
+            {
+                headers:{
+                    "X-Api-Key": process.env.API_NINJAS_KEY
+                }
+            }
+        )
+        const data = await response.json();
+        res.json(data);
+    } catch(err){
+        console.error(err);
+        res.status(500).send("API error");
+    }
+}
+
+/** @function createRecipe */
+// function that adds a recipe from my database
 async function createRecipe(req, res) {
     const { name, type, ingredients, steps } = req.body;
     const ntype = type.trim().toLowerCase();
@@ -131,7 +142,7 @@ async function createRecipe(req, res) {
                     return nutrition?.[0] || {};
                 })
             )
-            
+            // define the nutritional info into an array
             const ninfo = {
                 serving_size_g: 0,
                 fat_total_g: 0,
@@ -143,7 +154,7 @@ async function createRecipe(req, res) {
                 fiber_g: 0,
                 sugar_g: 0
             }
-
+            // loop through the array to total the info based on each ingredient
             for(let i = 0; i < results.length; i++){
                 const item = results[i];
                 const qty = ingredientsList[i].qty || 1;
@@ -157,7 +168,7 @@ async function createRecipe(req, res) {
                 ninfo.fiber_g += (item.fiber_g || 0) * qty;
                 ninfo.sugar_g += (item.sugar_g || 0) * qty;
             }
-
+            // store them into individual variables to be stored into the database
             const servingSize = ninfo.serving_size_g ?? null;
             const fatTotal = ninfo.fat_total_g ?? null;
             const fatSaturated = ninfo.fat_saturated_g ?? null;
@@ -170,7 +181,7 @@ async function createRecipe(req, res) {
 
             // track the user who added recipe
             const user_id = req.session.user_id;
-
+            // create the new recipe
             const newRecipe = await model.addRecipe(name, ntype, ingredients, steps, servingSize, fatTotal, fatSaturated, sodium, potassium, cholesterol, carbohydratesTotal, fiber, sugar, user_id);
             res.status(201).json(newRecipe);
         } catch (err) {

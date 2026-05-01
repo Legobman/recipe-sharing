@@ -2,7 +2,8 @@
 const model = require('../models/userModel');
 const bcrypt = require("bcrypt");
 
-// functions that need the user database
+/** @function register */
+// function that adds a user from my database
 async function register(req, res){
     const {username, password} = req.body;
     if (!username || !password){
@@ -16,6 +17,9 @@ async function register(req, res){
         res.status(500).send("User creation failed");
     }
 }
+
+/** @function login */
+// function that checks if the user's login info matches anything in database then save it if it was successful
 async function login(req, res){
     const {username, password} = req.body;
     const user = await model.getUser([username]);
@@ -28,11 +32,15 @@ async function login(req, res){
     }
 }
 
+/** @function logout */
+// function that deletes that the user is logged in
 function logout(req, res) {
     req.session.destroy();
     res.send("Logged out");
 }
 
+/** @function getCurrentUser */
+// function that grabs the logged in user's username and id
 function getCurrentUser(req, res){
     if(req.session.user_id){
         res.json({
