@@ -1,3 +1,8 @@
 # recipe-sharing
 # Power Point Video Link: https://uncg-my.sharepoint.com/:v:/g/personal/msberwick_uncg_edu/IQAWTe48dXOVSrM0S2vj_coZAZaHqpBQVCZo_D2lgDVwC3g?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=E10Aeh
 # Demo Video Link: https://uncg-my.sharepoint.com/:v:/g/personal/msberwick_uncg_edu/IQB3CTXYBfzWTLcbHJ2mCpOeAbAr9R1k7wHxQ5Pr995L7RY?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=WbNJ2v
+# Reflection:
+# Design Choices: I chose my frontend framework, backend framework, and database schema to keep my project simple and reduce headache from possible technical difficulties.
+# Challenges: The biggest challenge I faced was trying to get the external API to work in a way that I wanted to. I had accept that there will be some faults if I don’t want to invest more time into getting the external API functionality working perfectly then I did the rest of my website.
+# Learning Outcomes: I learned how to more properly implement full-stack development and deployment then I did in my CSC 340 class which focused on database interactions. I learned about more advanced ways to build websites, such as jsx and views.
+# Future Work: If I had more time, I’d like to get my external API into a much more functioning state. I’d also like to include images and learn how to store those in a database. I’d also like to implement stronger checks and security features.
