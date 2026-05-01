@@ -1,30 +1,62 @@
-
 #recipes-container {
-display: flex; 
-flex-wrap: wrap; 
-gap: 20px;
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 20px;
+    justify-content: center;
 }
-#reg-form{
+#recipe-details{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px; 
+    width: 60%;
+    background: navy;
+    border: 1px solid royalblue;
+    color: yellow;
+}
+#recipe-details.show{
+    display: grid;
+}
+#reg-form, #recipe-details{
     display: none;
 }
 #reg-form.show{
     display: block;
 }
-.right{
+.navbar{
     display: flex;
     gap: 10px;
 }
-.left{
-    gap: 10px;
-}
-article {
-border: 1px solid #ccc; 
-padding: 10px; 
-width: 200px;
+article, form{
+    padding: 10px; 
+    width: 200px;
+    background: navy;
+    border: 1px solid royalblue;
+    color: yellow;
 }
 nav{
     display: flex;
     justify-content: space-between;
     padding: 10px;
-    background-color: #eee;
+    background-color: darkblue;
+    border-bottom: 1px solid royalblue;
+    width: 100%;
+}
+body{
+    background: midnightblue;
+    color: yellow;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+button{
+    background: mediumblue;
+    color: yellow;
+}
+button:hover{
+    background: royalblue;
+}
+input{
+    border: 1px solid royalblue;
+    background: darkblue;
+    color: yellow;
 }

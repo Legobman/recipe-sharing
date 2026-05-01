@@ -9,12 +9,12 @@
 </head>
 <body>
     <nav>
-        <div class="left">
+        <div class="navbar">
             <button id="home">Home</button>
             <button id="breakfast">Breakfast</button>
             <button id="dessert">Dessert</button>
         </div>
-        <div class="right">
+        <div class="navbar">
             <input type="text" placeholder="username" id="username">
             <input type="password" placeholder="password" id="password">
             <button id="login-btn">Login</button>
@@ -22,6 +22,7 @@
             <button id="reg-btn">Register</button>
         </div>
     </nav>
+    <h1 id="title">Matthew's Recipe Sharing Website</h1>
     <!-- register form -->
     <form id="reg-form">
         <h1>New User</h1>
@@ -29,20 +30,18 @@
         <input type="password" placeholder="password" id="reg-password" required>
         <button type="button" id="addUser" class="btn">Create Account</button>
     </form>
+    <div id="recipe-details" class="recipe-box">
+    </div>
     <h1>Recipe List</h1>
     <div id="recipes-container">
-    </div>
-    <div id="nutrition-container">
-
     </div>
     <form id="form-container">
         <h1>New Recipe</h1>
         <input type="text" placeholder="Recipe Name" name="name" id="name" required>
         <input type="text" placeholder="Recipe Type" name="type" id="type" required>
-        <input type="text" placeholder="Recipe Ingredients" name="ingredients" id="ingredients" required>
+        <input type="text" placeholder="X {name}, x {name}" name="ingredients" id="ingredients" required>
         <input type="text" placeholder="Recipe Steps" name="steps" id="steps" required>
         <button type="submit" id="save-recipe" class="btn">Save</button>
     </form>
-
 </body>
 </html>

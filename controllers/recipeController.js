@@ -97,17 +97,29 @@ async function removeRecipe(req, res) {
 
 async function createRecipe(req, res) {
     const { name, type, ingredients, steps } = req.body;
-    const type = type.trim().toLowerCase();
-    if (name && type && ingredients && steps) {
+    const ntype = type.trim().toLowerCase();
+    if (name && ntype && ingredients && steps) {
         try {
             const ingredientsList = ingredients
                 .split(",")
-                .map(i => i.trim());
+                .map(i => {
+                    const match = i.trim().match(/^(\d+)\s*(.*)$/);
+                    if(match){
+                        return{
+                            qty: Number(match[1]),
+                            name: match[2]
+                        }
+                    }
+                    return{
+                        qty: 1,
+                        name: i.trim()
+                    }
+                });
             // Call API function
             const results = await Promise.all(
                 ingredientsList.map(async (item) =>{
                     const response = await fetch(
-                        `https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(item)}`,
+                        `https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(item.name)}`,
                         {
                             headers:{
                                 "X-Api-Key": process.env.API_NINJAS_KEY
@@ -132,17 +144,18 @@ async function createRecipe(req, res) {
                 sugar_g: 0
             }
 
-            for(const item of results){
-                if (!item) continue;
-                ninfo.serving_size_g += item.serving_size_g || 0;
-                ninfo.fat_total_g += item.fat_total_g || 0;
-                ninfo.fat_saturated_g += item.fat_saturated_g || 0;
-                ninfo.sodium_mg += item.sodium_mg || 0;
-                ninfo.potassium_mg += item.potassium_mg || 0;
-                ninfo.cholesterol_mg += item.cholesterol_mg || 0;
-                ninfo.carbohydrates_total_g += item.carbohydrates_total_g || 0;
-                ninfo.fiber_g += item.fiber_g || 0;
-                ninfo.sugar_g += item.sugar_g || 0;
+            for(let i = 0; i < results.length; i++){
+                const item = results[i];
+                const qty = ingredientsList[i].qty || 1;
+                ninfo.serving_size_g += (item.serving_size_g || 0) * qty;
+                ninfo.fat_total_g += (item.fat_total_g || 0) * qty;
+                ninfo.fat_saturated_g += (item.fat_saturated_g || 0) * qty;
+                ninfo.sodium_mg += (item.sodium_mg || 0) * qty;
+                ninfo.potassium_mg += (item.potassium_mg || 0) * qty;
+                ninfo.cholesterol_mg += (item.cholesterol_mg || 0) * qty;
+                ninfo.carbohydrates_total_g += (item.carbohydrates_total_g || 0) * qty;
+                ninfo.fiber_g += (item.fiber_g || 0) * qty;
+                ninfo.sugar_g += (item.sugar_g || 0) * qty;
             }
 
             const servingSize = ninfo.serving_size_g ?? null;
@@ -158,7 +171,7 @@ async function createRecipe(req, res) {
             // track the user who added recipe
             const user_id = req.session.user_id;
 
-            const newRecipe = await model.addRecipe(name, type, ingredients, steps, servingSize, fatTotal, fatSaturated, sodium, potassium, cholesterol, carbohydratesTotal, fiber, sugar, user_id);
+            const newRecipe = await model.addRecipe(name, ntype, ingredients, steps, servingSize, fatTotal, fatSaturated, sodium, potassium, cholesterol, carbohydratesTotal, fiber, sugar, user_id);
             res.status(201).json(newRecipe);
         } catch (err) {
             console.error(err);
