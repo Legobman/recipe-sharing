@@ -1,6 +1,8 @@
 # recipe-sharing
-# Power Point Video Link: https://uncg-my.sharepoint.com/:v:/g/personal/msberwick_uncg_edu/IQAWTe48dXOVSrM0S2vj_coZAZaHqpBQVCZo_D2lgDVwC3g?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=E10Aeh
-# Demo Video Link: https://uncg-my.sharepoint.com/:v:/g/personal/msberwick_uncg_edu/IQB3CTXYBfzWTLcbHJ2mCpOeAbAr9R1k7wHxQ5Pr995L7RY?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=WbNJ2v
+# Setup Instructions:
+# 1. clone 
+### Power Point Video Link: https://uncg-my.sharepoint.com/:v:/g/personal/msberwick_uncg_edu/IQAWTe48dXOVSrM0S2vj_coZAZaHqpBQVCZo_D2lgDVwC3g?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=E10Aeh
+### Demo Video Link: https://uncg-my.sharepoint.com/:v:/g/personal/msberwick_uncg_edu/IQB3CTXYBfzWTLcbHJ2mCpOeAbAr9R1k7wHxQ5Pr995L7RY?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=WbNJ2v
 # Reflection:
 # Design Choices: I chose my frontend framework, backend framework, and database schema to keep my project simple and reduce headache from possible technical difficulties.
 # Challenges: The biggest challenge I faced was trying to get the external API to work in a way that I wanted to. I had accept that there will be some faults if I don’t want to invest more time into getting the external API functionality working perfectly then I did the rest of my website.
