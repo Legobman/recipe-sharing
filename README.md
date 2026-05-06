@@ -5,6 +5,7 @@
 ## 3. Setup the environment variable for the database link and the api ninjas key
 ## 4. Start the server: node --watch server.js
 ## 5. Open the application: http://localhost:3000
+## Deployment URL: https://recipe-sharing-huk9.onrender.com
 # Videos:
 ###### Power Point Video Link: https://uncg-my.sharepoint.com/:v:/g/personal/msberwick_uncg_edu/IQAWTe48dXOVSrM0S2vj_coZAZaHqpBQVCZo_D2lgDVwC3g?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=E10Aeh
 ###### Demo Video Link: https://uncg-my.sharepoint.com/:v:/g/personal/msberwick_uncg_edu/IQB3CTXYBfzWTLcbHJ2mCpOeAbAr9R1k7wHxQ5Pr995L7RY?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=WbNJ2v
